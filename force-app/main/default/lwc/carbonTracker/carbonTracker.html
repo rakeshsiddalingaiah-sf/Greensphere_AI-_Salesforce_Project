@@ -1,0 +1,85 @@
+<template>
+    <div class="carbon-tracker">
+        <div class="scope-tabs">
+            <button class={scope1TabClass} onclick={selectScope1}>Scope 1</button>
+            <button class={scope2TabClass} onclick={selectScope2}>Scope 2</button>
+            <button class={scope3TabClass} onclick={selectScope3}>Scope 3</button>
+        </div>
+
+        <div class="scope-description">
+            <lightning-icon icon-name={scopeIconName} size="x-small"></lightning-icon>
+            <span>{scopeDescription}</span>
+        </div>
+
+        <div class="form-grid">
+            <lightning-combobox
+                name="sourceCategory"
+                label="Source Category"
+                value={selectedCategory}
+                options={categoryOptions}
+                onchange={handleCategoryChange}
+                required>
+            </lightning-combobox>
+
+            <lightning-input
+                type="number"
+                name="activityValue"
+                label={activityValueLabel}
+                value={activityValue}
+                onchange={handleActivityValueChange}
+                min="0"
+                required>
+            </lightning-input>
+
+            <lightning-input
+                type="date"
+                name="emissionDate"
+                label="Emission Date"
+                value={emissionDate}
+                onchange={handleDateChange}
+                required>
+            </lightning-input>
+
+            <lightning-input
+                type="number"
+                name="carbonOffset"
+                label="Carbon Offset (tCO₂e)"
+                value={carbonOffset}
+                onchange={handleOffsetChange}
+                min="0">
+            </lightning-input>
+        </div>
+
+        <!-- Real-time calculation preview -->
+        <template if:true={showCalculation}>
+            <div class="calculation-preview">
+                <div class="calc-row">
+                    <span>Gross Emission:</span>
+                    <strong>{calculatedGross} tCO₂e</strong>
+                </div>
+                <div class="calc-row">
+                    <span>Carbon Offset:</span>
+                    <strong>- {carbonOffset} tCO₂e</strong>
+                </div>
+                <div class="calc-row net-total">
+                    <span>Net Emission:</span>
+                    <strong>{calculatedNet} tCO₂e</strong>
+                </div>
+            </div>
+        </template>
+
+        <div class="form-actions">
+            <lightning-button label="Clear" onclick={handleClear}></lightning-button>
+            <lightning-button
+                label="Save Emission Record"
+                variant="brand"
+                onclick={handleSave}
+                disabled={isSaving}>
+            </lightning-button>
+        </div>
+
+        <template if:true={isSaving}>
+            <lightning-spinner size="small" alternative-text="Saving..."></lightning-spinner>
+        </template>
+    </div>
+</template>

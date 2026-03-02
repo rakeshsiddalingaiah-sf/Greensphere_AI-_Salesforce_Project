@@ -1,0 +1,20 @@
+{
+  "records": [
+    {
+      "attributes": { "type": "Supplier_Emission__c" },
+      "Supplier__c": "@SupplierRef1",
+      "ESG_Rating__c": "B",
+      "Scope3_Contribution__c": 3500,
+      "Compliance_Status__c": "Compliant",
+      "Last_Audit_Date__c": "2025-06-01"
+    },
+    {
+      "attributes": { "type": "Supplier_Emission__c" },
+      "Supplier__c": "@SupplierRef2",
+      "ESG_Rating__c": "D",
+      "Scope3_Contribution__c": 28000,
+      "Compliance_Status__c": "At Risk",
+      "Last_Audit_Date__c": "2023-11-15"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "records": [
+    {
+      "attributes": { "type": "Account", "referenceId": "AccountRef1" },
+      "Name": "GreenTech Manufacturing Corp",
+      "Industry": "Manufacturing",
+      "BillingCountry": "US",
+      "BillingState": "California",
+      "NumberOfEmployees": 5000,
+      "AnnualRevenue": 500000000
+    },
+    {
+      "attributes": { "type": "Account", "referenceId": "AccountRef2" },
+      "Name": "Sustainable Logistics Inc",
+      "Industry": "Transportation",
+      "BillingCountry": "US",
+      "BillingState": "Texas",
+      "NumberOfEmployees": 1200,
+      "AnnualRevenue": 120000000
+    },
+    {
+      "attributes": { "type": "Account", "referenceId": "SupplierRef1" },
+      "Name": "GreenSupply Co",
+      "Industry": "Retail",
+      "BillingCountry": "US",
+      "NumberOfEmployees": 300
+    },
+    {
+      "attributes": { "type": "Account", "referenceId": "SupplierRef2" },
+      "Name": "Carbon Heavy Materials Ltd",
+      "Industry": "Manufacturing",
+      "BillingCountry": "CN",
+      "NumberOfEmployees": 8000
+    }
+  ]
+}

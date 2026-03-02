@@ -1,0 +1,64 @@
+{
+  "records": [
+    {
+      "attributes": { "type": "Emission_Record__c" },
+      "Company__c": "@AccountRef1",
+      "Scope_Type__c": "Scope 1",
+      "Source_Category__c": "Natural Gas",
+      "Activity_Value__c": 25000,
+      "Carbon_Offset__c": 0,
+      "Emission_Date__c": "2026-01-15",
+      "Verified__c": true
+    },
+    {
+      "attributes": { "type": "Emission_Record__c" },
+      "Company__c": "@AccountRef1",
+      "Scope_Type__c": "Scope 1",
+      "Source_Category__c": "Diesel",
+      "Activity_Value__c": 15000,
+      "Carbon_Offset__c": 5,
+      "Emission_Date__c": "2026-02-01",
+      "Verified__c": false
+    },
+    {
+      "attributes": { "type": "Emission_Record__c" },
+      "Company__c": "@AccountRef1",
+      "Scope_Type__c": "Scope 2",
+      "Source_Category__c": "Grid Electricity US",
+      "Activity_Value__c": 500000,
+      "Carbon_Offset__c": 20,
+      "Emission_Date__c": "2026-01-31",
+      "Verified__c": true
+    },
+    {
+      "attributes": { "type": "Emission_Record__c" },
+      "Company__c": "@AccountRef1",
+      "Scope_Type__c": "Scope 3",
+      "Source_Category__c": "Business Travel - Air",
+      "Activity_Value__c": 2000000,
+      "Carbon_Offset__c": 100,
+      "Emission_Date__c": "2026-01-31",
+      "Verified__c": false
+    },
+    {
+      "attributes": { "type": "Emission_Record__c" },
+      "Company__c": "@AccountRef1",
+      "Scope_Type__c": "Scope 3",
+      "Source_Category__c": "Waste - Landfill",
+      "Activity_Value__c": 50000,
+      "Carbon_Offset__c": 0,
+      "Emission_Date__c": "2026-02-15",
+      "Verified__c": false
+    },
+    {
+      "attributes": { "type": "Emission_Record__c" },
+      "Company__c": "@AccountRef2",
+      "Scope_Type__c": "Scope 1",
+      "Source_Category__c": "Diesel",
+      "Activity_Value__c": 80000,
+      "Carbon_Offset__c": 10,
+      "Emission_Date__c": "2026-01-20",
+      "Verified__c": true
+    }
+  ]
+}

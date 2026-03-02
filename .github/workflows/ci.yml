@@ -1,0 +1,120 @@
+name: GreenSphere AI — Salesforce CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Salesforce CLI
+        run: |
+          npm install -g @salesforce/cli
+          sf --version
+
+      - name: Authenticate to DevHub
+        env:
+          SFDX_AUTH_URL: ${{ secrets.DEVHUB_SFDX_AUTH_URL }}
+        run: |
+          echo "$SFDX_AUTH_URL" > ./auth-url.txt
+          sf org login sfdx-url --sfdx-url-file ./auth-url.txt --alias DevHub --set-default-dev-hub
+          rm -f ./auth-url.txt
+
+      - name: Create Scratch Org
+        run: |
+          sf org create scratch \
+            --definition-file config/project-scratch-def.json \
+            --alias ci-scratch \
+            --duration-days 1 \
+            --set-default \
+            --no-namespace
+
+      - name: Deploy to Scratch Org
+        run: |
+          sf project deploy start \
+            --source-dir force-app \
+            --target-org ci-scratch \
+            --wait 15
+
+      - name: Assign Permission Set
+        run: |
+          sf org assign permset \
+            --name GreenSphere_ESG_Admin \
+            --target-org ci-scratch
+
+      - name: Run Apex Tests
+        run: |
+          sf apex test run \
+            --target-org ci-scratch \
+            --test-level RunLocalTests \
+            --output-dir test-results \
+            --result-format tap \
+            --code-coverage \
+            --wait 20
+
+      - name: Check Code Coverage
+        run: |
+          sf apex test run \
+            --target-org ci-scratch \
+            --test-level RunLocalTests \
+            --code-coverage \
+            --wait 15 \
+            --result-format json | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          coverage = data.get('result', {}).get('coverage', {}).get('coverage', [])
+          failed = [c for c in coverage if c.get('coveredPercent', 100) < 90]
+          if failed:
+              print('Classes below 90% coverage:')
+              for c in failed:
+                  print(f'  {c[\"name\"]}: {c[\"coveredPercent\"]}%')
+              sys.exit(1)
+          print('All classes meet 90% coverage requirement!')
+          "
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apex-test-results
+          path: test-results/
+
+      - name: Delete Scratch Org
+        if: always()
+        run: |
+          sf org delete scratch --target-org ci-scratch --no-prompt
+
+  deploy-to-staging:
+    runs-on: ubuntu-latest
+    needs: validate-and-deploy
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Salesforce CLI
+        run: npm install -g @salesforce/cli
+
+      - name: Authenticate to Staging Sandbox
+        env:
+          STAGING_AUTH_URL: ${{ secrets.STAGING_SFDX_AUTH_URL }}
+        run: |
+          echo "$STAGING_AUTH_URL" > ./staging-auth.txt
+          sf org login sfdx-url --sfdx-url-file ./staging-auth.txt --alias staging
+          rm -f ./staging-auth.txt
+
+      - name: Deploy to Staging
+        run: |
+          sf project deploy start \
+            --source-dir force-app \
+            --target-org staging \
+            --test-level RunLocalTests \
+            --wait 30

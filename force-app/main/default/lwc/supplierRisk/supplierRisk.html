@@ -1,0 +1,55 @@
+<template>
+    <div class="supplier-risk">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Analyzing supplier risk..." size="medium"></lightning-spinner>
+        </template>
+
+        <template if:false={isLoading}>
+            <div class="risk-summary-bar">
+                <div class="risk-badge high">High: {highCount}</div>
+                <div class="risk-badge medium">Medium: {mediumCount}</div>
+                <div class="risk-badge low">Low: {lowCount}</div>
+                <lightning-button
+                    label="Refresh AI Scores"
+                    size="small"
+                    icon-name="utility:refresh"
+                    onclick={handleRefresh}>
+                </lightning-button>
+            </div>
+
+            <template if:true={hasSuppliers}>
+                <div class="supplier-table">
+                    <div class="table-header">
+                        <span>Supplier</span>
+                        <span>ESG Rating</span>
+                        <span>Risk Score</span>
+                        <span>Scope 3 (tCO₂e)</span>
+                        <span>Status</span>
+                    </div>
+                    <template for:each={suppliers} for:item="supplier">
+                        <div key={supplier.supplierId} class={supplier.rowClass}>
+                            <span class="supplier-name">{supplier.supplierName}</span>
+                            <span class={supplier.ratingClass}>{supplier.esgRating}</span>
+                            <span class="risk-score-cell">
+                                <div class="risk-bar-container">
+                                    <div class="risk-bar" style={supplier.riskBarStyle}></div>
+                                </div>
+                                {supplier.riskScore}
+                            </span>
+                            <span>{supplier.scope3Formatted}</span>
+                            <span class={supplier.statusClass}>{supplier.complianceStatus}</span>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <template if:false={hasSuppliers}>
+                <div class="empty-state">
+                    <lightning-icon icon-name="utility:employee_organization" size="large"></lightning-icon>
+                    <p>No supplier risk data available.</p>
+                    <lightning-button label="Load Suppliers" variant="brand" onclick={handleRefresh}></lightning-button>
+                </div>
+            </template>
+        </template>
+    </div>
+</template>

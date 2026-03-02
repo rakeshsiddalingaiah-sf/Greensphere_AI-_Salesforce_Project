@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>ESG Score</label>
+    <pluralLabel>ESG Scores</pluralLabel>
+    <nameField>
+        <label>ESG Score Name</label>
+        <type>AutoNumber</type>
+        <displayFormat>ESG-{0000}</displayFormat>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>Composite ESG scoring record per company per period.</description>
+    <fields>
+        <fullName>Company__c</fullName>
+        <label>Company</label>
+        <type>Lookup</type>
+        <referenceTo>Account</referenceTo>
+        <relationshipName>ESG_Scores</relationshipName>
+        <relationshipLabel>ESG Scores</relationshipLabel>
+        <required>true</required>
+    </fields>
+    <fields>
+        <fullName>Overall_Score__c</fullName>
+        <label>Overall Score</label>
+        <type>Number</type>
+        <precision>5</precision>
+        <scale>2</scale>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Environmental_Score__c</fullName>
+        <label>Environmental Score (E)</label>
+        <type>Number</type>
+        <precision>5</precision>
+        <scale>2</scale>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Social_Score__c</fullName>
+        <label>Social Score (S)</label>
+        <type>Number</type>
+        <precision>5</precision>
+        <scale>2</scale>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Governance_Score__c</fullName>
+        <label>Governance Score (G)</label>
+        <type>Number</type>
+        <precision>5</precision>
+        <scale>2</scale>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Score_Date__c</fullName>
+        <label>Score Date</label>
+        <type>Date</type>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>AI_Summary__c</fullName>
+        <label>AI Summary</label>
+        <type>LongTextArea</type>
+        <length>32768</length>
+        <visibleLines>10</visibleLines>
+        <description>Einstein AI-generated executive summary for this scoring period.</description>
+    </fields>
+</CustomObject>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Emission Record</label>
+    <pluralLabel>Emission Records</pluralLabel>
+    <nameField>
+        <label>Emission Record Name</label>
+        <type>AutoNumber</type>
+        <displayFormat>ER-{0000}</displayFormat>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>Tracks individual carbon emission events across Scope 1, 2, and 3 categories.</description>
+    <fields>
+        <fullName>Company__c</fullName>
+        <label>Company</label>
+        <type>Lookup</type>
+        <referenceTo>Account</referenceTo>
+        <relationshipName>Emission_Records</relationshipName>
+        <relationshipLabel>Emission Records</relationshipLabel>
+        <required>true</required>
+    </fields>
+    <fields>
+        <fullName>Scope_Type__c</fullName>
+        <label>Scope Type</label>
+        <type>Picklist</type>
+        <required>true</required>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>Scope 1</fullName><label>Scope 1</label><default>true</default></value>
+                <value><fullName>Scope 2</fullName><label>Scope 2</label><default>false</default></value>
+                <value><fullName>Scope 3</fullName><label>Scope 3</label><default>false</default></value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Source_Category__c</fullName>
+        <label>Source Category</label>
+        <type>Picklist</type>
+        <required>true</required>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>Natural Gas</fullName><label>Natural Gas</label></value>
+                <value><fullName>Diesel</fullName><label>Diesel</label></value>
+                <value><fullName>Petrol</fullName><label>Petrol</label></value>
+                <value><fullName>LPG</fullName><label>LPG</label></value>
+                <value><fullName>Coal</fullName><label>Coal</label></value>
+                <value><fullName>Heating Oil</fullName><label>Heating Oil</label></value>
+                <value><fullName>Grid Electricity US</fullName><label>Grid Electricity US</label></value>
+                <value><fullName>Grid Electricity EU</fullName><label>Grid Electricity EU</label></value>
+                <value><fullName>Grid Electricity India</fullName><label>Grid Electricity India</label></value>
+                <value><fullName>Grid Electricity China</fullName><label>Grid Electricity China</label></value>
+                <value><fullName>Renewable Energy</fullName><label>Renewable Energy</label></value>
+                <value><fullName>Business Travel - Air</fullName><label>Business Travel - Air</label></value>
+                <value><fullName>Business Travel - Rail</fullName><label>Business Travel - Rail</label></value>
+                <value><fullName>Employee Commute</fullName><label>Employee Commute</label></value>
+                <value><fullName>Waste - Landfill</fullName><label>Waste - Landfill</label></value>
+                <value><fullName>Waste - Recycled</fullName><label>Waste - Recycled</label></value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Activity_Value__c</fullName>
+        <label>Activity Value</label>
+        <type>Number</type>
+        <precision>18</precision>
+        <scale>4</scale>
+        <required>true</required>
+    </fields>
+    <fields>
+        <fullName>Emission_Date__c</fullName>
+        <label>Emission Date</label>
+        <type>Date</type>
+        <required>true</required>
+    </fields>
+    <fields>
+        <fullName>Carbon_Offset__c</fullName>
+        <label>Carbon Offset (tCO2e)</label>
+        <type>Number</type>
+        <precision>18</precision>
+        <scale>4</scale>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Net_Emission__c</fullName>
+        <label>Net Emission (tCO2e)</label>
+        <type>Number</type>
+        <precision>18</precision>
+        <scale>4</scale>
+        <required>false</required>
+        <description>Calculated net emission after offsets. Updated by Apex trigger/batch.</description>
+    </fields>
+    <fields>
+        <fullName>Verified__c</fullName>
+        <label>Third-Party Verified</label>
+        <type>Checkbox</type>
+        <defaultValue>false</defaultValue>
+    </fields>
+    <listViews>
+        <fullName>All_Emission_Records</fullName>
+        <label>All Emission Records</label>
+        <filterScope>Everything</filterScope>
+        <columns>NAME</columns>
+        <columns>Company__c</columns>
+        <columns>Scope_Type__c</columns>
+        <columns>Source_Category__c</columns>
+        <columns>Net_Emission__c</columns>
+        <columns>Emission_Date__c</columns>
+        <columns>Verified__c</columns>
+    </listViews>
+</CustomObject>

@@ -1,0 +1,186 @@
+<template>
+    <div class="greensphere-dashboard">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <div class="header-left">
+                <span class="header-icon">🌍</span>
+                <div>
+                    <h1 class="dashboard-title">GreenSphere AI</h1>
+                    <p class="dashboard-subtitle">ESG &amp; Sustainability Intelligence Platform</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="period-badge">FY {currentYear}</span>
+                <lightning-button
+                    label="Generate AI Report"
+                    variant="brand"
+                    icon-name="utility:einstein"
+                    onclick={handleGenerateReport}
+                    disabled={isGeneratingReport}>
+                </lightning-button>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <c-esg-kpi-card
+                title="Total Emissions"
+                value={formattedTotalEmissions}
+                unit="tCO₂e"
+                trend={emissionTrend}
+                icon="utility:employee_organization"
+                color="blue">
+            </c-esg-kpi-card>
+            <c-esg-kpi-card
+                title="ESG Score"
+                value={esgScore}
+                unit="/ 100"
+                trend={scoreTrend}
+                icon="utility:ribbon"
+                color="green">
+            </c-esg-kpi-card>
+            <c-esg-kpi-card
+                title="Compliance Rate"
+                value={complianceRate}
+                unit="%"
+                trend="neutral"
+                icon="utility:check"
+                color={complianceColor}>
+            </c-esg-kpi-card>
+            <c-esg-kpi-card
+                title="High-Risk Suppliers"
+                value={highRiskSupplierCount}
+                unit="suppliers"
+                trend={supplierTrend}
+                icon="utility:warning"
+                color="red">
+            </c-esg-kpi-card>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+            <!-- Left Column -->
+            <div class="content-left">
+                <!-- Emission Chart -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Carbon Emissions by Scope</h2>
+                        <lightning-button-group>
+                            <lightning-button
+                                label="Monthly"
+                                variant={monthlyVariant}
+                                onclick={handleMonthlyView}>
+                            </lightning-button>
+                            <lightning-button
+                                label="Quarterly"
+                                variant={quarterlyVariant}
+                                onclick={handleQuarterlyView}>
+                            </lightning-button>
+                        </lightning-button-group>
+                    </div>
+                    <c-emission-chart
+                        scope1={scope1Data}
+                        scope2={scope2Data}
+                        scope3={scope3Data}
+                        labels={chartLabels}
+                        view-mode={chartViewMode}>
+                    </c-emission-chart>
+                </div>
+
+                <!-- Carbon Tracker -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Log Emission Activity</h2>
+                    </div>
+                    <c-carbon-tracker
+                        account-id={recordId}
+                        onrecordsaved={handleEmissionSaved}>
+                    </c-carbon-tracker>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="content-right">
+                <!-- Compliance Monitor -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Compliance Status</h2>
+                        <lightning-badge
+                            label={complianceSummaryLabel}
+                            class={complianceBadgeClass}>
+                        </lightning-badge>
+                    </div>
+                    <c-compliance-monitor
+                        account-id={recordId}
+                        onriskanalyzed={handleComplianceAnalyzed}>
+                    </c-compliance-monitor>
+                </div>
+
+                <!-- Supplier Risk -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Supplier Risk Intelligence</h2>
+                        <span class="ai-badge">⚡ AI Powered</span>
+                    </div>
+                    <c-supplier-risk
+                        account-id={recordId}
+                        onriskcalculated={handleSupplierRiskUpdated}>
+                    </c-supplier-risk>
+                </div>
+
+                <!-- Alerts Panel -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Live Alerts</h2>
+                        <span class="live-indicator">● LIVE</span>
+                    </div>
+                    <c-alerts-panel account-id={recordId}></c-alerts-panel>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Report Modal -->
+        <template if:true={showReportModal}>
+            <section role="dialog" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <h2 class="slds-modal__title">🤖 AI-Generated ESG Report</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close"
+                            onclick={closeReportModal}>
+                            <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                        </button>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <template if:true={isGeneratingReport}>
+                            <div class="report-loading">
+                                <lightning-spinner alternative-text="Generating AI report..."></lightning-spinner>
+                                <p>Einstein AI is analyzing your ESG data...</p>
+                            </div>
+                        </template>
+                        <template if:false={isGeneratingReport}>
+                            <c-esg-report-generator
+                                account-id={recordId}
+                                report-data={generatedReport}>
+                            </c-esg-report-generator>
+                        </template>
+                    </div>
+                    <div class="slds-modal__footer">
+                        <lightning-button label="Close" onclick={closeReportModal}></lightning-button>
+                        <lightning-button label="Export PDF" variant="brand"
+                            icon-name="utility:download"
+                            onclick={handleExportReport}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+        <!-- Toast Notifications -->
+        <template if:true={showToast}>
+            <div class={toastClass}>
+                <span>{toastMessage}</span>
+            </div>
+        </template>
+    </div>
+</template>

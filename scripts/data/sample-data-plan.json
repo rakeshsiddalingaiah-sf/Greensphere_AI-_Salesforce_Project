@@ -1,0 +1,29 @@
+{
+  "version": "1",
+  "files": [
+    {
+      "sobject": "Account",
+      "saveRefs": true,
+      "resolveRefs": false,
+      "file": "Account.json"
+    },
+    {
+      "sobject": "Emission_Record__c",
+      "saveRefs": false,
+      "resolveRefs": true,
+      "file": "Emission_Record__c.json"
+    },
+    {
+      "sobject": "Supplier_Emission__c",
+      "saveRefs": false,
+      "resolveRefs": true,
+      "file": "Supplier_Emission__c.json"
+    },
+    {
+      "sobject": "ESG_Score__c",
+      "saveRefs": false,
+      "resolveRefs": true,
+      "file": "ESG_Score__c.json"
+    }
+  ]
+}

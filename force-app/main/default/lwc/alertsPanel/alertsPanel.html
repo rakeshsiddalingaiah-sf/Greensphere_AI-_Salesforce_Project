@@ -1,0 +1,29 @@
+<template>
+    <div class="alerts-panel">
+        <template if:true={hasAlerts}>
+            <template for:each={alerts} for:item="alert">
+                <div key={alert.id} class={alert.alertClass}>
+                    <div class="alert-header">
+                        <span class={alert.severityClass}>{alert.severity}</span>
+                        <span class="alert-time">{alert.timeAgo}</span>
+                        <button class="dismiss-btn" data-id={alert.id} onclick={dismissAlert}>✕</button>
+                    </div>
+                    <p class="alert-message">{alert.message}</p>
+                    <div class="alert-type">{alert.alertType}</div>
+                </div>
+            </template>
+        </template>
+
+        <template if:false={hasAlerts}>
+            <div class="no-alerts">
+                <lightning-icon icon-name="utility:check" size="medium" variant="success"></lightning-icon>
+                <p>No active alerts. All systems normal.</p>
+            </div>
+        </template>
+
+        <div class="alerts-footer">
+            <span class="alert-count">{alertCount} active alert(s)</span>
+            <lightning-button label="Clear All" size="small" onclick={clearAllAlerts}></lightning-button>
+        </div>
+    </div>
+</template>

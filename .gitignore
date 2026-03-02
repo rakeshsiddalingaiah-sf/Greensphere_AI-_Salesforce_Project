@@ -1,0 +1,26 @@
+# Salesforce DX
+.sfdx/
+.sf/
+*.zip
+*.cer
+*.crt
+*.key
+*.pem
+auth-url.txt
+staging-auth.txt
+
+# Node
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# Test results
+test-results/
+*.tap
+
+# OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

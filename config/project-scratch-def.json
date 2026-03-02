@@ -1,0 +1,17 @@
+{
+  "orgName": "GreenSphere AI ESG Platform",
+  "edition": "Developer",
+  "features": ["EnableSetPasswordInApi", "PlatformEvents", "DataCloud"],
+  "settings": {
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "mobileSettings": {
+      "enableS1EncryptedStoragePref2": false
+    },
+    "languageSettings": {
+      "enableTranslationWorkbench": false,
+      "userLanguage": "en_US"
+    }
+  }
+}
